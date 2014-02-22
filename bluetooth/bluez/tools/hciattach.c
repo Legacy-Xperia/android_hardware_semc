@@ -48,8 +48,6 @@
 
 #include "hciattach.h"
 
-#include "ppoll.h"
-
 struct uart_t {
 	char *type;
 	int  m_id;
@@ -1185,6 +1183,8 @@ static struct uart_t * get_by_type(char *type)
 
 /* Initialize UART driver */
 static int init_uart(char *dev, struct uart_t *u, int send_break, int raw, int line_disc)
+
+
 {
 	struct termios ti;
 	int fd;
@@ -1247,7 +1247,7 @@ static int init_uart(char *dev, struct uart_t *u, int send_break, int raw, int l
 	}
 
 	/* Set TTY to N_HCI line discipline */
-	if (ioctl(fd, TIOCSETD, &line_disc) < 0) {
+        if (ioctl(fd, TIOCSETD, &line_disc) < 0) {
 		perror("Can't set line discipline");
 		return -1;
 	}
@@ -1281,7 +1281,7 @@ int main(int argc, char *argv[])
 	struct uart_t *u = NULL;
 	int detach, printpid, raw, opt, i, n, ld, err;
 	int to = 10;
-	int line_disc = N_HCI;
+        int line_disc = N_HCI;
 	int init_speed = 0;
 	int send_break = 0;
 	pid_t pid;
